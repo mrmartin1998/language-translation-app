@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import TranslationBox from './components/translation/TranslationBox';
+import TranslationResult from './components/translation/TranslationResult';
 import LanguageSelector from './components/translation/LanguageSelector';
 
 export default function Home() {
@@ -9,12 +10,19 @@ export default function Home() {
   const [translatedText, setTranslatedText] = useState('');
   const [sourceLang, setSourceLang] = useState('en');
   const [targetLang, setTargetLang] = useState('ko');
+  const [loading, setLoading] = useState(false);
+  const [isFavorite, setIsFavorite] = useState(false);
 
   const handleSwapLanguages = () => {
     setSourceLang(targetLang);
     setTargetLang(sourceLang);
     setSourceText(translatedText);
     setTranslatedText(sourceText);
+  };
+
+  const handleFavorite = () => {
+    setIsFavorite(!isFavorite);
+    // We'll implement the actual favorite functionality later
   };
 
   return (
@@ -47,19 +55,19 @@ export default function Home() {
             <h2 className="card-title">
               {targetLang === 'en' ? 'English' : '한국어'}
             </h2>
-            <TranslationBox
-              value={translatedText}
-              onChange={setTranslatedText}
-              placeholder="Translation will appear here..."
-              direction="target"
+            <TranslationResult
+              text={translatedText}
+              loading={loading}
+              onFavorite={handleFavorite}
+              isFavorite={isFavorite}
             />
           </div>
         </div>
       </section>
       
       <div className="flex justify-center">
-        <button className="btn btn-primary">
-          Translate
+        <button className="btn btn-primary" disabled={loading || !sourceText}>
+          {loading ? <span className="loading loading-spinner"></span> : 'Translate'}
         </button>
       </div>
     </div>
