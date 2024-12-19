@@ -4,7 +4,8 @@ export default function TranslationResult({
   text,
   loading,
   onFavorite,
-  isFavorite = false
+  isFavorite = false,
+  translationId = null
 }) {
   const handleCopy = async () => {
     try {

@@ -5,7 +5,7 @@ import LanguageSelector from './components/translation/LanguageSelector';
 import TranslationBox from './components/translation/TranslationBox';
 import TranslationResult from './components/translation/TranslationResult';
 import { useTranslation } from './hooks/useTranslation';
-import { saveTranslation } from './lib/utils/localStorage';
+import { saveTranslation, toggleFavorite } from './lib/utils/localStorage';
 
 export default function Home() {
   const [sourceText, setSourceText] = useState('');
@@ -13,6 +13,7 @@ export default function Home() {
   const [sourceLang, setSourceLang] = useState('en');
   const [targetLang, setTargetLang] = useState('ko');
   const [isFavorite, setIsFavorite] = useState(false);
+  const [currentTranslationId, setCurrentTranslationId] = useState(null);
   
   const { translate, loading, error } = useTranslation();
 
@@ -23,9 +24,8 @@ export default function Home() {
     if (result) {
       setTranslatedText(result);
       
-      // Save to history
       const translationEntry = {
-        id: Date.now().toString(), // Simple unique ID
+        id: Date.now().toString(),
         sourceText,
         translatedText: result,
         sourceLang,
@@ -35,6 +35,8 @@ export default function Home() {
       };
       
       saveTranslation(translationEntry);
+      setCurrentTranslationId(translationEntry.id);
+      setIsFavorite(false);
     }
   };
 
@@ -46,8 +48,25 @@ export default function Home() {
   };
 
   const handleFavorite = () => {
-    setIsFavorite(!isFavorite);
-    // We'll implement the actual favorite functionality later
+    if (!translatedText) return;
+    
+    const newIsFavorite = !isFavorite;
+    setIsFavorite(newIsFavorite);
+    
+    if (currentTranslationId) {
+      toggleFavorite(currentTranslationId);
+    } else {
+      const translationEntry = {
+        id: Date.now().toString(),
+        sourceText,
+        translatedText,
+        sourceLang,
+        targetLang,
+        timestamp: new Date().toISOString(),
+        isFavorite: newIsFavorite
+      };
+      saveTranslation(translationEntry);
+    }
   };
 
   return (
