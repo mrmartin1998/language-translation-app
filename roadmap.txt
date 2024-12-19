@@ -50,13 +50,13 @@ LANGUAGE TRANSLATION APP - DETAILED IMPLEMENTATION ROADMAP
    B. Translation Components
       ├── ✅TranslationBox.js
       │   ├── ✅ Textarea with auto-resize
-      │   ├── ✅Character count
-      │   └── ✅Clear button
+      │   ├── ✅ Character count
+      │   └── ✅ Clear button
       │
       ├── LanguageSelector.js
-      │   ├── Language options (EN/KR)
-      │   ├── Swap language button
-      │   └── Direction indicator
+      │   ├── ✅ Language options (EN/KR)
+      │   ├── ✅ Swap language button
+      │   └── ✅ Direction indicator
       │
       └── TranslationResult.js
           ├── Result display
