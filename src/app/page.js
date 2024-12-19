@@ -1,17 +1,28 @@
 'use client';
 
 import { useState } from 'react';
+import LanguageSelector from './components/translation/LanguageSelector';
 import TranslationBox from './components/translation/TranslationBox';
 import TranslationResult from './components/translation/TranslationResult';
-import LanguageSelector from './components/translation/LanguageSelector';
+import { useTranslation } from './hooks/useTranslation';
 
 export default function Home() {
   const [sourceText, setSourceText] = useState('');
   const [translatedText, setTranslatedText] = useState('');
   const [sourceLang, setSourceLang] = useState('en');
   const [targetLang, setTargetLang] = useState('ko');
-  const [loading, setLoading] = useState(false);
   const [isFavorite, setIsFavorite] = useState(false);
+  
+  const { translate, loading, error } = useTranslation();
+
+  const handleTranslate = async () => {
+    console.log('Translating:', { sourceText, sourceLang, targetLang });
+    const result = await translate(sourceText, sourceLang, targetLang);
+    console.log('Translation result:', result);
+    if (result) {
+      setTranslatedText(result);
+    }
+  };
 
   const handleSwapLanguages = () => {
     setSourceLang(targetLang);
@@ -27,6 +38,12 @@ export default function Home() {
 
   return (
     <div className="flex flex-col gap-8 max-w-4xl mx-auto">
+      {error && (
+        <div className="alert alert-error">
+          <span>{error}</span>
+        </div>
+      )}
+      
       <LanguageSelector
         sourceLang={sourceLang}
         targetLang={targetLang}
@@ -66,7 +83,11 @@ export default function Home() {
       </section>
       
       <div className="flex justify-center">
-        <button className="btn btn-primary" disabled={loading || !sourceText}>
+        <button 
+          className="btn btn-primary" 
+          disabled={loading || !sourceText}
+          onClick={handleTranslate}
+        >
           {loading ? <span className="loading loading-spinner"></span> : 'Translate'}
         </button>
       </div>
