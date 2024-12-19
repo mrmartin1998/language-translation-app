@@ -1,204 +1,37 @@
-LANGUAGE TRANSLATION APP - DETAILED IMPLEMENTATION ROADMAP
+IMPLEMENTATION TASKS (IN ORDER)
 
-1. PROJECT SETUP & CONFIGURATION ✅
-   A. Environment Setup
-      ├── ✅ Configure DaisyUI in tailwind.config.js
-      │   ├── ✅ Add daisyUI plugin
-      │   └── ✅ Configure available themes
-      ├── ✅ Create .env.local (empty for now)
-      └── ✅ Update metadata in layout.js
+1. API Integration Setup
+   - Create /api/translate/route.js endpoint
+   - Test endpoint with Postman/Thunder Client
+   - Verify error responses
 
-   B. Project Structure
-      src/
-      ├── app/
-      │   ├── api/
-      │   │   └── translate/
-      │   │       └── route.js (API endpoint)
-      │   ├── components/
-      │   │   ├── layout/
-      │   │   │   ├── Header.js
-      │   │   │   ├── ThemeSwitcher.js
-      │   │   │   └── Footer.js
-      │   │   ├── translation/
-      │   │   │   ├── TranslationBox.js
-      │   │   │   ├── LanguageSelector.js
-      │   │   │   └── TranslationResult.js
-      │   │   └── history/
-      │   │       ├── HistoryPanel.js
-      │   │       └── FavoritesPanel.js
-      │   ├── hooks/
-      │   │   ├── useTranslation.js
-      │   │   ├── useLocalStorage.js
-      │   │   └── useTheme.js
-      │   └── lib/
-      │       ├── constants.js
-      │       └── utils/
-      │           ├── localStorage.js
-      │           └── translation.js
+2. Translation Hook Integration
+   - Connect useTranslation hook to LibreTranslate
+   - Test basic translation (no retries/storage)
+   - Verify loading states
+   - Test error handling
 
-2. DETAILED COMPONENT SPECIFICATIONS (In Progress)
-   A. Layout Components
-      ├── ✅ Header.js
-      │   ├── ✅ Logo/Title
-      │   ├── ✅ Theme switcher
-      │   └── ✅ Navigation tabs
-      │
-      └── ✅ MainLayout.js
-          ├── ✅ Responsive container
-          └── ✅ Content area management
+3. Local Storage Implementation
+   - Add basic save/load functions
+   - Test persistence across refreshes
+   - Implement history saving
 
-   B. Translation Components
-      ├── ✅ TranslationBox.js
-      │   ├── ✅ Textarea with auto-resize
-      │   ├── ✅ Character count
-      │   └── ✅ Clear button
-      │
-      ├── ✅ LanguageSelector.js
-      │   ├── ✅ Language options (EN/KR)
-      │   ├── ✅ Swap language button
-      │   └── ✅ Direction indicator
-      │
-      └── ✅ TranslationResult.js
-          ├── ✅ Result display
-          ├── ✅ Copy button
-          └── ✅ Add to favorites button
+4. History Panel
+   - Display saved translations
+   - Test pagination
+   - Verify data loading
 
-   C. History Components
-      ├── ✅ HistoryPanel.js
-      │   ├── ✅ History list with pagination
-      │   ├── ✅ Search/filter functionality
-      │   └── ✅ Clear history button
-      │
-      └── ✅ HistoryItem.js
-          ├── ✅ Translation details
-          ├── ✅ Timestamp
-          └── ✅ Action buttons (favorite/delete)
+5. Favorites System
+   - Add favorite toggling
+   - Test persistence
+   - Update UI indicators
 
-3. STATE MANAGEMENT & DATA FLOW
-   A. Local Storage Structure
-      ├── theme: string
-      ├── translationHistory: {
-      │   id: string
-      │   sourceText: string
-      │   translatedText: string
-      │   sourceLang: 'en' | 'ko'
-      │   targetLang: 'en' | 'ko'
-      │   timestamp: ISO string
-      │   isFavorite: boolean
-      │}[]
-      └── favorites: Set<string> (IDs)
+6. Search & Filter
+   - Add search functionality
+   - Test filtering
+   - Verify performance
 
-   B. React State Management
-      ├── Global Theme State
-      │   ├── Current theme
-      │   └── Theme toggle function
-      │
-      ├── Translation State
-      │   ├── Source text
-      │   ├── Target text
-      │   ├── Selected languages
-      │   └── Loading state
-      │
-      └── History State
-          ├── History items
-          ├── Favorites
-          └── Filter/search state
-
-4. API INTEGRATION
-   A. LibreTranslate Setup
-      ├── API Endpoint: https://libretranslate.de/
-      ├── Available Endpoints
-      │   ├── /translate - Main translation endpoint
-      │   └── /languages - Get supported languages
-      └── No API key required
-
-   B. API Implementation
-      ├── /api/translate/route.js
-      │   ├── Request validation
-      │   ├── API call structure
-      │   │   ├── POST request
-      │   │   ├── Headers: { 'Content-Type': 'application/json' }
-      │   │   └── Body: {
-      │   │       q: string,        // Text to translate
-      │   │       source: string,   // 'en' or 'ko'
-      │   │       target: string,   // 'en' or 'ko'
-      │   │   }
-      │   ├── Error handling
-      │   │   ├── Rate limiting errors
-      │   │   ├── Network errors
-      │   │   └── Invalid language pairs
-      │   └── Response formatting
-      │
-      └── Frontend Integration
-          ├── useTranslation hook
-          │   ├── Translation state
-          │   ├── Loading state
-          │   └── Error state
-          ├── Fallback handling
-          │   ├── Retry logic
-          │   └── Error messages
-          └── Rate limiting handling
-              ├── User feedback
-              └── Cooldown period
-
-5. UTILITY FUNCTIONS
-   A. localStorage.js
-      ├── saveTranslation()
-      ├── getHistory()
-      ├── toggleFavorite()
-      └── clearHistory()
-
-   B. translation.js
-      ├── formatTranslationRequest()
-      ├── validateInput()
-      └── handleTranslationError()
-
-6. IMPLEMENTATION PHASES
-   Phase 1: Core Translation
-   ├── Basic UI components
-   ├── API integration
-   ├── Error handling
-   └── Loading states
-
-   Phase 2: Storage & History
-   ├── localStorage implementation
-   ├── History panel
-   └── Basic CRUD operations
-
-   Phase 3: Enhanced Features
-   ├── Favorites system
-   ├── Theme system
-   └── Search/filter functionality
-
-   Phase 4: Polish
-   ├── Animations
-   ├── Responsive design
-   ├── Error boundaries
-   └── Performance optimization
-
-7. TESTING & QUALITY ASSURANCE
-   ├── Manual Testing Checklist
-   │   ├── Translation functionality
-   │   ├── History operations
-   │   ├── Theme switching
-   │   └── Responsive design
-   │
-   ├── Error Scenarios
-   │   ├── API failures
-   │   ├── Invalid input
-   │   └── Storage limits
-   │
-   └── Browser Testing
-       ├── Chrome/Firefox/Safari
-       ├── Mobile responsiveness
-       └── localStorage behavior
-
-8. DEPLOYMENT
-   ├── Environment Variables
-   │   ├── GOOGLE_CLOUD_API_KEY
-   │   └── NEXT_PUBLIC_APP_URL
-   │
-   └── Vercel Deployment
-       ├── Connect repository
-       ├── Configure env variables
-       └── Deploy application
+7. Polish & Optimization
+   - Add loading animations
+   - Implement error boundaries
+   - Test responsive design
