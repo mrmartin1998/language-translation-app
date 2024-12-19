@@ -5,6 +5,7 @@ import LanguageSelector from './components/translation/LanguageSelector';
 import TranslationBox from './components/translation/TranslationBox';
 import TranslationResult from './components/translation/TranslationResult';
 import { useTranslation } from './hooks/useTranslation';
+import { saveTranslation } from './lib/utils/localStorage';
 
 export default function Home() {
   const [sourceText, setSourceText] = useState('');
@@ -21,6 +22,19 @@ export default function Home() {
     console.log('Translation result:', result);
     if (result) {
       setTranslatedText(result);
+      
+      // Save to history
+      const translationEntry = {
+        id: Date.now().toString(), // Simple unique ID
+        sourceText,
+        translatedText: result,
+        sourceLang,
+        targetLang,
+        timestamp: new Date().toISOString(),
+        isFavorite: false
+      };
+      
+      saveTranslation(translationEntry);
     }
   };
 
