@@ -1,0 +1,122 @@
+LANGUAGE TRANSLATION APP ROADMAP
+
+1. PROJECT SETUP & STRUCTURE
+   ├── Initial Setup (Already Done)
+   │   ├── Next.js
+   │   ├── Tailwind CSS
+   │   └── DaisyUI
+   │
+   └── Project Structure
+       ├── /src
+       │   ├── /app
+       │   │   ├── /api
+       │   │   │   └── /translate
+       │   │   ├── /components
+       │   │   └── /hooks
+       │   └── /lib
+       │       └── /utils
+
+2. CORE FEATURES (Implementation Order)
+   1. Basic Translation Interface
+      ├── Text input area
+      ├── Language selection (EN <-> KR)
+      ├── Translation button
+      └── Result display
+
+   2. Theme System
+      ├── DaisyUI theme integration
+      ├── Theme switcher component
+      └── Theme persistence in localStorage
+
+   3. Translation History
+      ├── History storage structure
+      ├── Save translations to localStorage
+      └── Display history list
+
+   4. Favorites System
+      ├── Favorite/unfavorite functionality
+      ├── Favorites storage in localStorage
+      └── Favorites list view
+
+3. COMPONENTS BREAKDOWN
+   ├── Layout Components
+   │   ├── Header (theme switcher)
+   │   └── MainLayout
+   │
+   ├── Translation Components
+   │   ├── TranslationInput
+   │   ├── LanguageSelector
+   │   ├── TranslationResult
+   │   └── TranslationControls
+   │
+   └── History Components
+       ├── HistoryList
+       ├── HistoryItem
+       ├── FavoritesList
+       └── FavoritesItem
+
+4. STATE MANAGEMENT
+   ├── Local State (React useState)
+   │   ├── Current input text
+   │   ├── Selected languages
+   │   └── Translation result
+   │
+   └── localStorage Structure
+       ├── Theme preference
+       ├── Translation history
+       └── Favorite translations
+
+5. API INTEGRATION
+   ├── Setup Google Cloud Translation API
+   │   ├── Create Google Cloud account
+   │   ├── Enable Translation API
+   │   └── Get API credentials
+   │
+   └── API Implementation
+       ├── Create serverless API route
+       └── Error handling
+
+6. DATA MODELS
+   ├── Translation History Item
+   │   ├── id: string
+   │   ├── sourceText: string
+   │   ├── translatedText: string
+   │   ├── sourceLang: string
+   │   ├── targetLang: string
+   │   ├── timestamp: Date
+   │   └── isFavorite: boolean
+   │
+   └── localStorage Keys
+       ├── 'theme'
+       ├── 'translationHistory'
+       └── 'favoriteTranslations'
+
+7. IMPLEMENTATION PHASES
+   Phase 1: Basic Translation
+   ├── Create UI components
+   ├── Implement API route
+   └── Basic error handling
+
+   Phase 2: History & Storage
+   ├── Implement localStorage utilities
+   ├── Create history components
+   └── Add history functionality
+
+   Phase 3: Favorites & Theme
+   ├── Add favorites system
+   ├── Implement theme switching
+   └── Theme persistence
+
+   Phase 4: Polish & Optimize
+   ├── Loading states
+   ├── Error boundaries
+   ├── Responsive design
+   └── Performance optimization
+
+8. TESTING STRATEGY
+   ├── Manual testing
+   ├── Browser compatibility
+   └── localStorage functionality
+
+9. DEPLOYMENT
+   └── Deploy to Vercel
